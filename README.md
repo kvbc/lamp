@@ -26,10 +26,9 @@
 | :---------: | :---------: |
 | push `value` | Push a `value` onto the top of the stack |
 | pop `value` | Discard the top `value` elements of the stack <br> 📝 No other instruction can pop a value off the stack |
-| getbot `idx` | Push the `idx`th element from stack bottom to top |
-| setbot `idx` | Set the `idx`th element from the bottom of the stack to the top element of the stack |
-| gettop `idx` | Push the `idx`th element from stack bottom to top |
-| settop `idx` | Set the `idx`th element from the bottom of the stack to the top element of the stack |
+| get | `idx` Push the `idx`th element from stack bottom to top |
+| set | `value` `idx` Set the `idx`th element from the bottom of the stack to the top element of the stack |
+| del | `idx` Push the `idx`th element from stack bottom to top |
 
 ##### Control flow
 
