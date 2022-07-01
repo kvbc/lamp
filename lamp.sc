@@ -4,34 +4,42 @@ global_constants = {};
 global_stack = []; // []
 global_call_stack = [];
 
-error(s) -> print('[ERROR] ' + s);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Auxiliary functions
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-assert_vector3(list, what) -> (
-    if (type(list) != 'list',
-        error(what + ' isn\'t a list: ' + str(list));
-        return (false);
+assert_type(x, tp) -> (
+    if (type(tp) != 'string', 
+        x = tp;
+        tp = 'string';
     );
+    if (type(x) != tp, throw(str('NOT A %s : "%s"', tp, str(x))));
+);
 
-    if (length(list) != 3,
-        error(what + ' has more or less than 3 elements: ' + str(list));
-        return (false);
-    );
+assert_num  (x) -> assert_type(x, 'number');
+assert_str  (x) -> assert_type(x, 'string');
+assert_list (x) -> assert_type(x, 'list');
+assert_map  (x) -> assert_type(x, 'map');
+assert_bool (x) -> assert_type(x, 'bool');
 
-    return (true);
+assert_vector3(x) -> (
+    assert_list(x);
+    if (length(x) != 3, throw('LIST MUST HAVE EXACTLY 3 ELEMENTS : "' + str(x) + '"'));
 );
 
 extend_list(l1_, l2) -> (
+    assert_list(l1_);
     l1 = copy(l1_);
     put(l1, null, l2, 'extend');
     return (l1);
 );
 
 merge_lists(l) -> (
+    assert_list(l);
     c_for(i = 0, i < length(l), i += 1,
         if (type(l:i) == 'list',
-            // c_for(j = 0, j < length(l:i), j += 1,
-            //     put(l, i + 1 + j, _:j, 'insert');
-            // );
             if (length(l:i) > 1, put(l, i + 1, slice(l:i,1), 'extend'));
             if (length(l:i) > 0, l:i = l:i:0);
         );
@@ -46,7 +54,7 @@ merge_lists(l) -> (
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 dir_from_list(dir) -> (
-    if (!assert_vector3(dir, 'dir in dir_from_list()'), return('INVALID'));
+    assert_vector3(dir);
 
     if (dir:0 < 0, return('west'));
     if (dir:0 > 0, return('east'));
@@ -59,7 +67,7 @@ dir_from_list(dir) -> (
 );
 
 mcpos(pos) -> (
-    if (!assert_vector3(pos, 'pos in mcpos()'), return(null));
+    assert_vector3(pos);
     return (join(' ', pos));
 );
 
@@ -114,32 +122,32 @@ c = {
     'p_CMP_gr_end' -> [-12, 0, 30],
 
     'p_i_push' -> [0, 0, 23],
-    'p_i_push_idx' -> [0, 2, 23],
-    'p_i_push_ALU_cb' -> [0, 4, 23],
-    'p_i_push_end' -> [0, 6, 23],
+    'p_i_push_idx' -> [0, 1, 23],
+    'p_i_push_ALU_cb' -> [0, 2, 23],
+    'p_i_push_end' -> [0, 3, 23],
 
-    'p_i_pop' -> [2, 0, 23],
+    'p_i_pop' -> [1, 0, 23],
 
-    'p_i_add' -> [4, 0, 23],
-    'p_i_add_ALU_cb' -> [4, 2, 23],
-    'p_i_add_PUSH_cb' -> [4, 4, 23],
+    'p_i_add' -> [3, 0, 23],
+    'p_i_add_ALU_cb' -> [3, 1, 23],
+    'p_i_add_PUSH_cb' -> [3, 2, 23],
 
-    'p_i_sub' -> [6, 0, 23],
-    'p_i_sub_ALU_cb' -> [6, 2, 23],
-    'p_i_sub_PUSH_cb' -> [6, 4, 23],
+    'p_i_sub' -> [4, 0, 23],
+    'p_i_sub_ALU_cb' -> [4, 1, 23],
+    'p_i_sub_PUSH_cb' -> [4, 2, 23],
 
-    'p_i_jmp' -> [8, 0, 23],
-    'p_i_je' -> [10, 0, 23],
-    'p_i_jne' -> [12, 0, 23],
-    'p_i_jg' -> [14, 0, 23],
-    'p_i_jg_CMP_cb' -> [14, 2, 23],
-    'p_i_jge' -> [16, 0, 23],
-    'p_i_jl' -> [18, 0, 23],
-    'p_i_jl_CMP_cb' -> [18, 2, 23],
-    'p_i_jle' -> [20, 0, 23],
+    'p_i_jmp' -> [6, 0, 23],
+    'p_i_je' -> [7, 0, 23],
+    'p_i_jne' -> [8, 0, 23],
+    'p_i_jg' -> [9, 0, 23],
+    'p_i_jg_CMP_cb' -> [9, 1, 23],
+    'p_i_jge' -> [10, 0, 23],
+    'p_i_jl' -> [11, 0, 23],
+    'p_i_jl_CMP_cb' -> [11, 1, 23],
+    'p_i_jle' -> [12, 0, 23],
 
-    'p_i_get' -> [22, 0, 23],
-    'p_i_set' -> [24, 0, 23]
+    'p_i_get' -> [14, 0, 23],
+    'p_i_set' -> [15, 0, 23]
 };
 
 // CPU
@@ -181,8 +189,18 @@ c:'p2_CMP_XOR' = c:'p2_CMP_B' + [-2,0,0];
 c:'p1_CMP_XOR_CHK' = c:'p1_CMP_XOR' + [0,-1,0];
 c:'p2_CMP_XOR_CHK' = c:'p2_CMP_XOR' + [0,-1,0];
 
-_if(exec_args) -> 'execute ' + exec_args;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+_if(exec_args) -> (
+    assert_str(exec_args);
+    return ('execute ' + exec_args);
+);
 _do(cmds) -> (
+    assert_list(cmds);
     dir = [0,0,1];
     ofs = [-dir:0, -dir:1, -dir:2];
     res = [];
@@ -194,23 +212,22 @@ _do(cmds) -> (
 );
 _ALUpos(block) -> 'execute if block $p_ALU_pos$ $AIR$ run setblock $p_ALU_pos$ ' + block;
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//
-//
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-cmds_ALU_next(p_loop, p_end) -> [
-    // advance ALU pointer
-    'execute as $ALU$ at @s run tp @s ~ ~ ~-1',
-    //
-    'execute at $ALU$ if blocks $p3_ALU$ ~ ~ ~ $p4_ALU$ all run setblock ~-1 ~ ~ $AIR$',
-    // LOOP
-    str('execute at $ALU$ unless block ~-1 ~ ~ $AIR$ run setblock $%s$ minecraft:redstone_block', p_loop),
-    // reset ALU pointer if reached end
-    'execute as $ALU$ at @s if block ~-1 ~ ~ $AIR$ run tp @s $p2_ALU$',
-        str('> setblock $%s$ minecraft:redstone_block', p_end)
-];
+cmds_ALU_next(p_loop, p_end) -> {
+    assert_str(p_loop);
+    assert_str(p_end);
+    return ([
+        // advance ALU pointer
+        'execute as $ALU$ at @s run tp @s ~ ~ ~-1',
+        //
+        'execute at $ALU$ if blocks $p3_ALU$ ~ ~ ~ $p4_ALU$ all run setblock ~-1 ~ ~ $AIR$',
+        // LOOP
+        str('execute at $ALU$ unless block ~-1 ~ ~ $AIR$ run setblock $%s$ minecraft:redstone_block', p_loop),
+        // reset ALU pointer if reached end
+        'execute as $ALU$ at @s if block ~-1 ~ ~ $AIR$ run tp @s $p2_ALU$',
+            str('> setblock $%s$ minecraft:redstone_block', p_end)
+    ]);
+};
 
 CMD_CPU_TOP_OR_ARG = 'execute if block $p1_CPU_A$ $AIR$ at $STACK_PTR$ run clone ~-1 ~ ~1 ~-1 ~ ~8 $p1_CPU_A$';
 
@@ -274,7 +291,12 @@ cmdblocks = {
         'redstone_block' -> true,
         'commands' -> [
             'kill @e[type=minecraft:armor_stand]',
-            'fill -50 0 -50 50 2 50 $AIR$'
+            'fill -50 5 -50 50 5 50 $AIR$',
+            'fill -50 4 -50 50 4 50 $AIR$',
+            'fill -50 3 -50 50 3 50 $AIR$',
+            'fill -50 2 -50 50 2 50 $AIR$',
+            'fill -50 1 -50 50 1 50 $AIR$',
+            'fill -50 0 -50 50 0 50 $AIR$',
         ]
     },
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -569,11 +591,11 @@ cmdblocks = {
         'direction' -> [0,0,1],
         'redstone_block' -> true,
         'commands' -> [
+            'setblock $p_i_push$ $AIR$',
             // add callback
             'execute if block $p_i_add$ minecraft:redstone_block run setblock $p_i_add_PUSH_cb$ minecraft:redstone_block',
             // sub callback
             'execute if block $p_i_sub$ minecraft:redstone_block run setblock $p_i_sub_PUSH_cb$ minecraft:redstone_block',
-            'setblock $p_i_push$ $AIR$',
             CMD_MAIN_NEXT
         ]
     },
@@ -805,10 +827,10 @@ cmdblocks = {
         'position' -> c:'p_i_set',
         'direction' -> [0,0,1],
         'redstone_block' -> true,
-        'commands' -> extend_list(CMDS_CPU_TOP2_OR_ARG, [
+        'commands' -> [// extend_list(CMDS_CPU_TOP2_OR_ARG, [
             'execute at $STACK$ if blocks ~ ~ ~-8 ~ ~ ~-1 $p1_CPU_A$ all run clone $p1_CPU_B$ $p2_CPU_B$ ~ ~ ~1',
             CMD_MAIN_NEXT
-        ])
+        ]
     }
 };
 
@@ -817,9 +839,16 @@ c_for(i = 0, i < 8, i += 1,
 );
 
 place_cmdblock(c, data) -> (
+    assert_map(c);
+    assert_map(data);
+
     loc = data:'position';
     dir = data:'direction';
     cmds = data:'commands';
+
+    assert_vector3(loc);
+    assert_vector3(dir);
+    assert_list(cmds);
 
     if (data:'redstone_block',
         put(cmds, 0, 'setblock ' + mcpos(loc) + ' minecraft:air', 'insert');
@@ -828,6 +857,7 @@ place_cmdblock(c, data) -> (
 
     for(merge_lists(cmds),
         cmd = _;
+        assert_str(cmd);
 
         cond = 'false';
         cmdblock = 'chain_command_block';
@@ -846,8 +876,12 @@ place_cmdblock(c, data) -> (
         for (pairs(c), 
             name = _:0;
             val = _:1;
-            if (type(val) == 'list', val = mcpos(val));
-            cmd = replace(cmd, '\\$' + name + '\\$', val);
+            assert_str(name);
+            if (type(val) == 'list',
+                assert_vector3(val);
+                val = mcpos(val);
+            );
+            cmd = replace(cmd, '\\$' + name + '\\$', str(val));
         );
 
         set(loc, str('%s[facing=%s,conditional=%s]{"auto":%s,"Command":"%s"}', cmdblock, dir_from_list(dir), cond, always_active, cmd));
@@ -861,33 +895,55 @@ place_cmdblock(c, data) -> (
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-place_number(location, num, bits, line) -> (
+place_number(pos, num, bits, line) -> (
+    assert_vector3(pos);
+    assert_num(num);
+    assert_num(bits);
+    assert_bool(line);
+
     num_power(num, pwr) -> (
+        assert_num(num);
+        assert_num(pwr);
         res = 1;
         while(1, pwr, res = res * num);
         return (res);
     );
 
     bit_is_set(num, idx) -> (
+        assert_num(num);
+        assert_num(idx);
         return (floor(num / num_power(2, idx)) % 2 == 1);
     );
 
-    set(location, 'lime_wool');
-    if (num < 0,
+    set(pos, 'lime_wool');
+    if (num <= 0,
         num = -num;
-        set(location, 'red_wool');
+        set(pos, 'red_wool');
     );
-    location:2 += 1;
+    pos:2 += 1;
 
     if (line, (
-        set(location, 'orange_wool');
-        location:2 += 1;
+        set(pos, 'orange_wool');
+        pos:2 += 1;
     ));
     c_for (bit_idx = bits - 1 - 1, bit_idx >= 0, bit_idx = bit_idx - 1, 
         blockid = (bit_is_set(num, bit_idx) && 'lime_wool') || 'red_wool';
-        set(location, blockid);
-        location:2 += 1;
+        set(pos, blockid);
+        pos:2 += 1;
     );
+);
+
+place_sign(pos, ln1, ln2, ln3, ln4) -> (
+    assert_vector3(pos);
+    if (ln1 == null, ln1 = '');
+    if (ln2 == null, ln2 = '');
+    if (ln3 == null, ln3 = '');
+    if (ln4 == null, ln4 = '');
+    assert_str(ln1);
+    assert_str(ln2);
+    assert_str(ln3);
+    assert_str(ln4);
+    set(pos, str('oak_sign{Text1:"{\\"text\\":\\"%s\\"}",Text2:"{\\"text\\":\\"%s\\"}",Text3:"{\\"text\\":\\"%s\\"}",Text4:"{\\"text\\":\\"%s\\"}"}', ln1, ln2, ln3, ln4));
 );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -930,8 +986,22 @@ for (global_statements, (
 
     place_number([stmt_idx,0,-8],stmt_idx,8,false);
     set([stmt_idx, 0, 0], 'orange_wool');
-    set([stmt_idx, 1, 0], 'air');
-    set([stmt_idx, 1, 0], str('oak_sign{Text1:"{\\"text\\":\\"%s\\"}"}', type + ' ' + stmt:1));
+    set([stmt_idx, 2, 0], 'air');
+    
+    if (type(stmt) == 'string', (
+        place_sign([stmt_idx,2,0], type, '', '', '');
+    ), true, 
+        myget(l,i) -> (
+            assert_list(l);
+            if (i < length(l), return(l:i));
+            return (null);
+        );
+        place_sign([stmt_idx,2,0], type,
+            str( myget(stmt,1) ),
+            str( myget(stmt,2) ),
+            str( myget(stmt,3) )
+        );
+    );
     cmdblocks:'load':'commands' += cmd_summon_armorstand(mcpos([stmt_idx,0,0]), 'CPU');
     place_cmdblock(c, {
         'position' -> [stmt_idx, 0, 19],
