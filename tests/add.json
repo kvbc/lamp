@@ -1,0 +1,43 @@
+[
+    //
+    // ADD + +
+    //
+    // A > B
+    ["push", 15],
+    ["push", 9],
+    "add",
+    // A == b
+    ["push", 7],
+    ["push", 7],
+    "add",
+    // A < B
+    ["push", 3],
+    ["push", 34],
+    "add",
+    //
+    // ADD - -
+    //
+    // A > B
+    ["push", -4],
+    ["push", -7],
+    "add",
+    // A == B
+    ["push", -9],
+    ["push", -9],
+    "add",
+    // A < B
+    ["push", -16],
+    ["push", -4],
+    "add",
+    //
+    // ADD - +
+    //
+    // A > B
+    ["push", 12],
+    ["push", -5],
+    "add",
+    // A < B
+    ["push", -33],
+    ["push", 69],
+    "add"
+]
