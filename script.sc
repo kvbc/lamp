@@ -29,11 +29,11 @@ extend_list(l1_, l2) -> (
 merge_lists(l) -> (
     c_for(i = 0, i < length(l), i += 1,
         if (type(l:i) == 'list',
-            if (length(l:i) > 1, put(l, i + 1, slice(l:i,1), 'extend'));
-            if (length(l:i) > 0, l:i = l:i:0);
             // c_for(j = 0, j < length(l:i), j += 1,
             //     put(l, i + 1 + j, _:j, 'insert');
             // );
+            if (length(l:i) > 1, put(l, i + 1, slice(l:i,1), 'extend'));
+            if (length(l:i) > 0, l:i = l:i:0);
         );
     );
     return (l);
@@ -162,6 +162,7 @@ c:'p2_ALU_A' = c:'p2_ALU' + [-1,0,0];
 c:'p1_ALU_B' = c:'p1_ALU_A' + [-1,0,0];
 c:'p2_ALU_B' = c:'p2_ALU_A' + [-1,0,0];
 c:'p1_ALU_R' = c:'p1_ALU_B' + [-1,0,0];
+c:'p_ALU_R_MSB' = c:'p1_ALU_R' + [0,0,1];
 c:'p2_ALU_R' = c:'p2_ALU_B' + [-1,0,0];
 
 c:'p_ALU_pos' = c:'p2_ALU_R' + [-2,0,0];
@@ -310,6 +311,8 @@ cmdblocks = {
             // neg
             'clone $p_ALU_pos$ $p_ALU_pos$ $p1_ALU_R$',
             'setblock $p_ALU_pos$ $AIR$',
+            // zero
+            'execute if blocks $p_ALU_R_MSB$ $p2_ALU_R$ $p4_ALU$ all run setblock $p1_ALU_R$ $OFF$',
             // push callback
             'execute if block $p_i_push$ minecraft:redstone_block run setblock $p_i_push_ALU_cb$ minecraft:redstone_block',
             // add callback
