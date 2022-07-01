@@ -193,12 +193,6 @@ _do(cmds) -> (
 );
 _ALUpos(block) -> 'execute if block $p_ALU_pos$ $AIR$ run setblock $p_ALU_pos$ ' + block;
 
-CMDS_ALU_SWAPPOS = [
-    'execute if block $p_ALU_pos$ $ON$  run setblock $p_ALU_num$ $OFF$',
-    'execute if block $p_ALU_pos$ $OFF$ run setblock $p_ALU_num$ $ON$',
-    'clone $p_ALU_num$ $p_ALU_num$ $p_ALU_pos$'
-];
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -386,7 +380,6 @@ cmdblocks = {
     // ALU --- subtraction
     //
     ////////////////////////////////////////////////////e////////////////////////////////////////////////////////////
-    //TODO - swapping A and B
     'ALU_sub' -> {
         'position' -> c:'p_ALU_sub',
         'direction' -> [0,0,1],
@@ -418,7 +411,11 @@ cmdblocks = {
             // - -
             _if('if block $p1_ALU_A$ $OFF$ if block $p1_ALU_B$ $OFF$'),
             _do([
-                CMDS_ALU_SWAPPOS,
+                // swap pos
+                'execute if block $p_ALU_pos$ $ON$  run setblock $p_ALU_num$ $OFF$',
+                'execute if block $p_ALU_pos$ $OFF$ run setblock $p_ALU_num$ $ON$',
+                'clone $p_ALU_num$ $p_ALU_num$ $p_ALU_pos$',
+                //
                 'setblock $p_ALU_sub_loop$ minecraft:redstone_block'
             ]),
             // + +
