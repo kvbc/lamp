@@ -87,8 +87,8 @@ lbl main
 
 - Actually handle `char` cuz i don't think it's working
 - Make conditional jump instructions pop off their `A`s and `B`s
-- Create the `const` instruction for setting constants
-- Create an instruction that pushes the top index
-- Create the `mul` and `div` instructions for multiplication and division
+- Create a `const` instruction for setting constants
+- Create an `idx` instruction that pushes the top index
+- Create `mul` and `div` instructions for multiplication and division
 - Perhaps create a `del` instruction that would remove an element at a specified index
 - Perhaps create a `put` instruction that would place a specified block given `x y z` coordinates
