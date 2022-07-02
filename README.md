@@ -1,6 +1,6 @@
 # Lamp
 
-Minecraft Carpet standalone vanilla command-block CPU generator
+Minecraft Carpet standalone turing-complete vanilla command-block CPU generator
 
 Programs are written in JSON, so it is possible to create a compiler for it (just in theory 😳)
 
