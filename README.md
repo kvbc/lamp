@@ -18,8 +18,7 @@ Minecraft Carpet standalone vanilla command-block CPU generator
 
 TODO: this readme is terrible
 
-##### Other
-
+<!-- ##### Other -->
 <!-- | Instruction | Description | -->
 <!-- | :---------: | :---------: | -->
 <!-- | const `name` `value` | Define a constant of the given `name` and `value` -->
