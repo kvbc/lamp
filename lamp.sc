@@ -47,6 +47,12 @@ merge_lists(l) -> (
     return (l);
 );
 
+safeget(l,i) -> (
+    assert_list(l);
+    if (i < length(l), return(l:i));
+    return (null);
+);
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //
@@ -83,9 +89,9 @@ c = {
     'OFF' -> 'minecraft:red_wool',
     'p_IF' -> [0,10,0],
 
-    'p_main' -> [-13, 0, 0],
-    'p_load' -> [-14, 0, -11],
-    'p_clear' -> [-12, 0, -11],
+    'p_main' -> [-18, 0, 9],
+    'p_load' -> [-14, 0, 3],
+    'p_clear' -> [-12, 0, 3],
 
     'CPU' -> '@e[type=minecraft:armor_stand,name=CPU]',
     'CPU_PTR' -> '@e[type=minecraft:armor_stand,name=CPU_PTR]',
@@ -116,38 +122,44 @@ c = {
     'CMP' -> '@e[type=minecraft:armor_stand,name=CMP]',
     'CMP_PTR' -> '@e[type=minecraft:armor_stand,name=CMP_PTR]',
     'p1_CMP' -> [-2, 1, 28],
-    'p_CMP_eq' -> [-8, 0, 30],
     'p_CMP_gr' -> [-10, 0, 30],
     'p_CMP_gr_loop' -> [-11, 0, 30],
     'p_CMP_gr_end' -> [-12, 0, 30],
 
-    'p_i_push' -> [0, 0, 23],
-    'p_i_push_idx' -> [0, 1, 23],
-    'p_i_push_ALU_cb' -> [0, 2, 23],
-    'p_i_push_end' -> [0, 3, 23],
+    'CALL_PTR' -> '@e[type=minecraft:armor_stand,name=CALL_PTR]',
+    'p_CALL' -> [0,0,-36],
 
-    'p_i_pop' -> [1, 0, 23],
+    'p_i_push' -> [0, 0, 34],
+    'p_i_push_idx' -> [0, 1, 34],
+    'p_i_push_ALU_cb' -> [0, 2, 34],
+    'p_i_push_end' -> [0, 3, 34],
 
-    'p_i_add' -> [3, 0, 23],
-    'p_i_add_ALU_cb' -> [3, 1, 23],
-    'p_i_add_PUSH_cb' -> [3, 2, 23],
+    'p_i_pop' -> [1, 0, 34],
 
-    'p_i_sub' -> [4, 0, 23],
-    'p_i_sub_ALU_cb' -> [4, 1, 23],
-    'p_i_sub_PUSH_cb' -> [4, 2, 23],
+    'p_i_add' -> [3, 0, 34],
+    'p_i_add_ALU_cb' -> [3, 1, 34],
+    'p_i_add_PUSH_cb' -> [3, 2, 34],
 
-    'p_i_jmp' -> [6, 0, 23],
-    'p_i_je' -> [7, 0, 23],
-    'p_i_jne' -> [8, 0, 23],
-    'p_i_jg' -> [9, 0, 23],
-    'p_i_jg_CMP_cb' -> [9, 1, 23],
-    'p_i_jge' -> [10, 0, 23],
-    'p_i_jl' -> [11, 0, 23],
-    'p_i_jl_CMP_cb' -> [11, 1, 23],
-    'p_i_jle' -> [12, 0, 23],
+    'p_i_sub' -> [4, 0, 34],
+    'p_i_sub_ALU_cb' -> [4, 1, 34],
+    'p_i_sub_PUSH_cb' -> [4, 2, 34],
 
-    'p_i_get' -> [14, 0, 23],
-    'p_i_set' -> [15, 0, 23]
+    'p_i_jmp' -> [6, 0, 34],
+    'p_i_je' -> [7, 0, 34],
+    'p_i_jne' -> [8, 0, 34],
+    'p_i_jg' -> [9, 0, 34],
+    'p_i_jg_CMP_cb' -> [9, 1, 34],
+    'p_i_jge' -> [10, 0, 34],
+    'p_i_jl' -> [11, 0, 34],
+    'p_i_jl_CMP_cb' -> [11, 1, 34],
+    'p_i_jle' -> [12, 0, 34],
+    'p_i_call' -> [13, 0, 34],
+    'p_i_ret' -> [14, 0, 34],
+    'p_i_jz' -> [15, 0, 34],
+    'p_i_jnz' -> [16, 0, 34],
+
+    'p_i_get' -> [18, 0, 34],
+    'p_i_set' -> [19, 0, 34]
 };
 
 // CPU
@@ -155,6 +167,9 @@ c:'p1_CPU_A' = c:'p_CPU' + [-1,0,1];
 c:'p2_CPU_A' = c:'p_CPU' + [-1,0,8];
 c:'p1_CPU_B' = c:'p1_CPU_A' + [-1,0,0];
 c:'p2_CPU_B' = c:'p2_CPU_A' + [-1,0,0];
+c:'p1_CPU_C' = c:'p1_CPU_B' + [-1,0,0];
+c:'p2_CPU_C' = c:'p2_CPU_B' + [-1,0,0];
+c:'p_CPU_D' = c:'p2_CPU_C' + [-1,0,0];
 
 // STACK
 c:'p1_STACK_num' = c:'p_STACK' + [-1,0,1];
@@ -267,6 +282,7 @@ cmdblocks = {
             cmd_summon_armorstand('$p2_ALU$', 'ALU'),
             cmd_summon_armorstand_ptr('$p2_CMP$', 'CMP_PTR'),
             cmd_summon_armorstand_ptr('$p_STACK$', 'STACK_PTR'),
+            cmd_summon_armorstand_ptr('$p_CALL$', 'CALL_PTR'),
             // stack 0 index
             'execute at $STACK_PTR$ run fill ~ ~ ~-8 ~ ~ ~-1 $OFF$',
             //
@@ -311,11 +327,15 @@ cmdblocks = {
         'commands' -> [
             'fill $p1_CPU_A$ $p2_CPU_A$ $AIR$',
             'fill $p1_CPU_B$ $p2_CPU_B$ $AIR$',
+            'fill $p1_CPU_C$ $p2_CPU_C$ $AIR$',
+            'setblock $p_CPU_D$ $AIR$',
             // copy instruction number
             'execute at $CPU_PTR$ run clone ~ ~ ~1 ~ ~ ~8 $p1_CPU_A$',
             'execute at $CPU_PTR$ run clone ~ ~ ~10 ~ ~ ~17 $p1_CPU_B$',
+            'execute at $CPU_PTR$ run clone ~ ~ ~19 ~ ~ ~26 $p1_CPU_C$',
+            'execute at $CPU_PTR$ run clone ~ ~ ~28 ~ ~ ~28 $p_CPU_D$',
             // place redstone block
-            'execute at $CPU_PTR$ run setblock ~ ~ ~19 minecraft:redstone_block',
+            'execute at $CPU_PTR$ run setblock ~ ~ ~30 minecraft:redstone_block',
             // advance instruction pointer
             'execute as $CPU_PTR$ at @s if block ~ ~ ~ minecraft:orange_wool run tp @s ~1 ~ ~'
         ]
@@ -484,18 +504,6 @@ cmdblocks = {
     //
     ////////////////////////////////////////////////////e////////////////////////////////////////////////////////////
     //
-    // Equals
-    //
-    'CMP_eq' -> {
-        'position' -> c:'p_CMP_eq',
-        'direction' -> [0,0,1],
-        'redstone_block' -> true,
-        'commands' -> [
-            'setblock $p_CMP_R$ $OFF$',
-            'execute if blocks $p1_CMP_A$ $p2_CMP_A$ $p1_CMP_B$ all run setblock $p_CMP_R$ $ON$'
-        ]
-    },
-    //
     // Greater
     //
     'CMP_gr' -> {
@@ -515,6 +523,7 @@ cmdblocks = {
         'direction' -> [0,0,1],
         'redstone_block' -> true,
         'commands' -> [
+            // https://slidetodoc.com/ee-121-john-wakerly-lecture-6-adders-multipliers/
             'execute at $CMP_PTR$ if block ~ ~ ~ $OFF$ if block ~-1 ~ ~ $ON$ if block ~-3 ~ ~-1 $AIR$ run setblock $p_CMP_R$ $ON$',
             'execute at $CMP_PTR$ if block ~ ~ ~ $OFF$ if block ~-1 ~ ~ $ON$ if blocks $p1_CMP_XOR$ ~-3 ~ ~-1 $p1_CMP_XOR_CHK$ all run setblock $p_CMP_R$ $ON$',
                 '> execute at $CMP_PTR$ run setblock ~-3 ~ ~-1 $AIR$',
@@ -804,6 +813,36 @@ cmdblocks = {
     },
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //
+    // Instruction -- jz
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    'i_jz' -> {
+        'position' -> c:'p_i_jz',
+        'direction' -> [0,0,1],
+        'redstone_block' -> true,
+        'commands' -> [
+            _if('at $STACK_PTR$ if blocks ~-1 ~ ~1 ~-1 ~ ~8 $p4_ALU$ all'),
+            _do(['execute at $CPU$ if blocks ~ ~ ~-8 ~ ~ ~-1 $p1_CPU_A$ all run tp $CPU_PTR$ ~ ~ ~']),
+            CMD_MAIN_NEXT
+        ]
+    },
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Instruction -- jnz
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    'i_jnz' -> {
+        'position' -> c:'p_i_jnz',
+        'direction' -> [0,0,1],
+        'redstone_block' -> true,
+        'commands' -> [
+            _if('at $STACK_PTR$ unless blocks ~-1 ~ ~1 ~-1 ~ ~8 $p4_ALU$ all'),
+            _do(['execute at $CPU$ if blocks ~ ~ ~-8 ~ ~ ~-1 $p1_CPU_A$ all run tp $CPU_PTR$ ~ ~ ~']),
+            CMD_MAIN_NEXT
+        ]
+    },
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
     // Instruction -- get
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -827,9 +866,44 @@ cmdblocks = {
         'position' -> c:'p_i_set',
         'direction' -> [0,0,1],
         'redstone_block' -> true,
-        'commands' -> [// extend_list(CMDS_CPU_TOP2_OR_ARG, [
+        'commands' -> extend_list(CMDS_CPU_TOP2_OR_ARG, [
             'execute at $STACK$ if blocks ~ ~ ~-8 ~ ~ ~-1 $p1_CPU_A$ all run clone $p1_CPU_B$ $p2_CPU_B$ ~ ~ ~1',
             CMD_MAIN_NEXT
+        ])
+    },
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Instruction -- call
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    'i_call' -> {
+        'position' -> c:'p_i_call',
+        'direction' -> [0,0,1],
+        'redstone_block' -> true,
+        'commands' -> [
+            'execute at $CPU_PTR$ run clone ~ ~ ~-8 ~ ~ ~-1 $p1_CPU_B$',
+            'execute at $CALL_PTR$ run clone $p1_CPU_B$ $p2_CPU_B$ ~ ~ ~1',
+            'execute as $CALL_PTR$ at @s run tp @s ~1 ~ ~',
+            // jmp
+            'execute at $CPU$ if blocks ~ ~ ~-8 ~ ~ ~-1 $p1_CPU_A$ all run tp $CPU_PTR$ ~ ~ ~',
+            CMD_MAIN_NEXT
+        ]
+    },
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Instruction -- ret
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    'i_ret' -> {
+        'position' -> c:'p_i_ret',
+        'direction' -> [0,0,1],
+        'redstone_block' -> true,
+        'commands' -> [
+            'execute as $CALL_PTR$ at @s run tp @s ~-1 ~ ~',
+            'execute at $CALL_PTR$ run clone ~ ~ ~1 ~ ~ ~8 $p1_CPU_A$',
+            // jmp
+            'execute at $CPU$ if blocks ~ ~ ~-8 ~ ~ ~-1 $p1_CPU_A$ all run tp $CPU_PTR$ ~ ~ ~',
+                '> ' + CMD_MAIN_NEXT
         ]
     }
 };
@@ -935,14 +1009,14 @@ place_number(pos, num, bits, line) -> (
 
 place_sign(pos, ln1, ln2, ln3, ln4) -> (
     assert_vector3(pos);
-    if (ln1 == null, ln1 = '');
-    if (ln2 == null, ln2 = '');
-    if (ln3 == null, ln3 = '');
-    if (ln4 == null, ln4 = '');
     assert_str(ln1);
     assert_str(ln2);
     assert_str(ln3);
     assert_str(ln4);
+    if (ln1 == 'null', ln1 = '');
+    if (ln2 == 'null', ln2 = '');
+    if (ln3 == 'null', ln3 = '');
+    if (ln4 == 'null', ln4 = '');
     set(pos, str('oak_sign{Text1:"{\\"text\\":\\"%s\\"}",Text2:"{\\"text\\":\\"%s\\"}",Text3:"{\\"text\\":\\"%s\\"}",Text4:"{\\"text\\":\\"%s\\"}"}', ln1, ln2, ln3, ln4));
 );
 
@@ -952,63 +1026,72 @@ place_sign(pos, ln1, ln2, ln3, ln4) -> (
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-for (global_statements,
-    if (_:0 == 'lbl',
-        id = _:1;
+c_for (i = 0, i < length(global_statements), i += 1,
+    stmt = global_statements:i;
+
+    tp = stmt:0;
+    if (tp == 'lbl',
+        id = stmt:1;
         if (has(global_labels, id),
-            error('Label "' + id + '" has already been defined'));
-        global_labels:id = _i;
-        delete(global_statements, _i);
+            throw('Label "' + id + '" has already been defined'));
+        global_labels:id = i - length(keys(global_labels));
     );
 );
 
+stmt_num = 0;
 for (global_statements, (
     stmt = _;
-    stmt_idx = _i;
     type = '???';
 
     if (type(stmt) == 'list', type = stmt:0,
         type(stmt) == 'string', type = stmt,
-        true, error('Statement must be either a list or string: "' + str(stmt) + '"'));
+        true, throw('Statement must be either a list or string : "' + str(stmt) + '"'));
 
-    arg1 = stmt:1;
-    arg2 = stmt:2;
+    if (type == 'lbl', continue());
 
-    if (type(arg1) == 'number', place_number([stmt_idx,0,1],  arg1, 8, false));
-    if (type(arg2) == 'number', place_number([stmt_idx,0,10], arg2, 8, false));
-
-    if ((type == 'jmp') || (type == 'je') || (type == 'jne') || (type == 'jg') || (type == 'jge') || (type == 'jl') || (type == 'jle'), (
+    if ((type == 'jmp') ||
+        (type == 'je') ||
+        (type == 'jne') ||
+        (type == 'jg') ||
+        (type == 'jge') ||
+        (type == 'jl') ||
+        (type == 'jle') ||
+        (type == 'call') ||
+        (type == 'jnz') ||
+        (type == 'jz'), (
         id = stmt:1;
         if (!has(global_labels, id),
             error('Label "' + id + '" doesn\'t exist'));
-        place_number([stmt_idx, 0, 1], global_labels:id, 8, false);
+        place_number([stmt_num, 0, 1], global_labels:id, 8, false);
     ));
 
-    place_number([stmt_idx,0,-8],stmt_idx,8,false);
-    set([stmt_idx, 0, 0], 'orange_wool');
-    set([stmt_idx, 2, 0], 'air');
+    place_number([stmt_num,0,-8],stmt_num,8,false);
+    set([stmt_num, 0, 0], 'orange_wool');
+    set([stmt_num, 2, 0], 'air');
     
     if (type(stmt) == 'string', (
-        place_sign([stmt_idx,2,0], type, '', '', '');
+        place_sign([stmt_num,2,0], type, '', '', '');
     ), true, 
-        myget(l,i) -> (
-            assert_list(l);
-            if (i < length(l), return(l:i));
-            return (null);
-        );
-        place_sign([stmt_idx,2,0], type,
-            str( myget(stmt,1) ),
-            str( myget(stmt,2) ),
-            str( myget(stmt,3) )
-        );
+        arg1 = safeget(stmt, 1);
+        arg2 = safeget(stmt, 2);
+        arg3 = safeget(stmt, 3);
+        arg4 = safeget(stmt, 4);
+
+        place_sign([stmt_num,2,0], type + ' ' + str(arg1), str(arg2), str(arg3), str(arg4));
+
+        if (type(arg1) == 'number', place_number([stmt_num,0,1],  arg1, 8, false));
+        if (type(arg2) == 'number', place_number([stmt_num,0,10], arg2, 8, false));
+        if (type(arg3) == 'number', place_number([stmt_num,0,19], arg3, 8, false));
     );
-    cmdblocks:'load':'commands' += cmd_summon_armorstand(mcpos([stmt_idx,0,0]), 'CPU');
+    cmdblocks:'load':'commands' += cmd_summon_armorstand(mcpos([stmt_num,0,0]), 'CPU');
     place_cmdblock(c, {
-        'position' -> [stmt_idx, 0, 19],
+        'position' -> [stmt_num, 0, 30],
         'direction' -> [0, 0, 1],
         'redstone_block' -> true,
         'commands' -> ['setblock $' + 'p_i_' + type + '$ minecraft:redstone_block']
     });
+
+    stmt_num += 1;
 ));
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
