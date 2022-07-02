@@ -18,7 +18,7 @@ The first 10 fibonacci numbers - [Video Showcase](https://www.youtube.com/watch?
 ```as
 jmp main
 lbl loop
-  pop ;get 0
+  pop //get 0
   add
   get 0 ;10
   push 1
