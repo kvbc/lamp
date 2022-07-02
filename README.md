@@ -10,7 +10,7 @@ The assembly language is array-based and it provides
 - primitive usage of "variables" (`get` and `set` instructions)
 - basic arithmetics (`add` and `sub` instructions)
 - conditional jumps
-- subroutines
+- subroutines  
 
 - [Synopsis](#Synopsis)
 - [Instructions](#Instructions)
