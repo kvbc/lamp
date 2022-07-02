@@ -1,6 +1,6 @@
 # <img width="32" src="img/lamp.png"> Lamp
 
-Minecraft CarpetMod standalone turing-complete vanilla command-block array-based CPU generator
+Minecraft [CarpetMod](https://github.com/gnembon/fabric-carpet) standalone turing-complete vanilla command-block array-based CPU generator
 
 The generator is written in [scarpet](https://github.com/gnembon/fabric-carpet/tree/master/docs/scarpet) using [CarpetMod](https://github.com/gnembon/fabric-carpet)  
 Assembly is written in JSON so maybe one day, with enough instructions, it would be possible to transpile [LUA's](https://www.lua.org/) bytecode to it. Which would be the ultimate goal of this project
