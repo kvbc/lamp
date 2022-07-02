@@ -20,7 +20,7 @@ jmp main
 lbl loop
   pop //get 0
   add
-  get 0 ;10
+  get 0 //10
   push 1
   sub
   set 0
@@ -31,7 +31,7 @@ lbl main
   push 10
   push 1
   push 1
-  push 69 ;dummy for 1st pop in :loop
+  push 69 //dummy for 1st pop in :loop
   jmp loop
 ```
 
