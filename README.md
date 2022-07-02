@@ -1,7 +1,7 @@
 <p align="center" width="100%">
-  <img width="33%" height="50%" src="img/lamp.png">
-  <img width="33%" height="50%" src="img/lamp.png">
-  <img width="33%" height="50%" src="img/lamp.png">
+  <img width="33%" height="20%" src="img/lamp.png">
+  <img width="33%" height="20%" src="img/lamp.png">
+  <img width="33%" height="20%" src="img/lamp.png">
 </p>
 
 # Lamp
