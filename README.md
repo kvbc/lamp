@@ -12,6 +12,26 @@ The assembly language is array-based and it provides
 - conditional jumps
 - subroutines
 
+# Synopsis
+
+The first 10 fibonacci numbers
+```as
+push 10
+push 1
+push 1
+push 11
+lbl loop
+  push 1
+  sub
+  set 0
+  pop
+  pop
+  pop
+  add
+  get 0
+  jnz loop
+```
+
 # Instructions
 
 - `number` — `[0-9]+`
