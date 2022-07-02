@@ -1,8 +1,9 @@
 # Lamp
 
-Minecraft Carpet standalone turing-complete vanilla command-block array-based CPU generator
+Minecraft CarpetMod standalone turing-complete vanilla command-block array-based CPU generator
 
-Programs are written in JSON, so it is possible to create a compiler for it (just in theory 😳)
+The generator is written in [scarpet](https://github.com/gnembon/fabric-carpet/tree/master/docs/scarpet) using [CarpetMod](https://github.com/gnembon/fabric-carpet)  
+Assembly is written in JSON, so it is possible to create a compiler for it (just in theory 😳)
 
 The assembly language is array-based and it provides
 - basic stack manipulation instructions (`push` and `pop` instructions)
