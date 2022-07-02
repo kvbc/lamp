@@ -1,6 +1,4 @@
-<p align="center">
-  <img width="100" src="img/lamp.png">
-</p>
+<img width="128" src="img/lamp.png">
 
 # Lamp
 
