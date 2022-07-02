@@ -17,8 +17,8 @@ The assembly language is array-based and it provides
 
 # Sections
 
-- [Synopsis](#Synopsis)
-- [Instructions](#Instructions)
+- [Synopsis](#synopsis)
+- [Instruction Set](#instruction-set)
   - [Memory manipulation](#memory-manipulation)
   - [Control flow](#control-flow)
   - [Arithmetic](#arithmetic)
@@ -47,7 +47,7 @@ lbl main
   jmp loop
 ```
 
-# Instructions
+# Instruction Set
 
 - `number` — `[0-9]+`
 - `char` — `'.'`
