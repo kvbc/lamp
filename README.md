@@ -1,4 +1,6 @@
-![](img/lamp.png)
+<p align="center" width="100%">
+  <img src="img/lamp.png">
+</p>
 
 # Lamp
 
