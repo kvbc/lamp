@@ -1,3 +1,7 @@
+# Lamp
+
+Minecraft Carpet standalone vanilla command-block CPU generator
+
 # Terminology
 
 - `number` — `[0-9]+`
@@ -12,13 +16,13 @@
 
 # Instructions
 
+TODO: this readme is terrible
+
 ##### Other
 
-| Instruction | Description |
-| :---------: | :---------: |
-| const `name` `value` | Define a constant of the given `name` and `value`
-| printtop    | Print out the top stack element |
-| printstack  | Print out the entire stack |
+<!-- | Instruction | Description | -->
+<!-- | :---------: | :---------: | -->
+<!-- | const `name` `value` | Define a constant of the given `name` and `value` -->
 
 ##### Stack manipulation
 
@@ -28,7 +32,7 @@
 | pop `value` | Discard the top `value` elements of the stack <br> 📝 No other instruction can pop a value off the stack |
 | get | `idx` Push the `idx`th element from stack bottom to top |
 | set | `value` `idx` Set the `idx`th element from the bottom of the stack to the top element of the stack |
-| del | `idx` Push the `idx`th element from stack bottom to top |
+<!-- | del | `idx` Push the `idx`th element from stack bottom to top | -->
 
 ##### Control flow
 
@@ -51,5 +55,5 @@
 | :---------: | :---------: |
 | add | Add the top two values on the stack and push the result |
 | sub | Subtract the top value on the stack from the second-top value and push the result |
-| mul | Multiply the top two values on the stack and push the result |
-| div | Divide the top value on the stack by the second-top value and push the result |
+<!-- | mul | Multiply the top two values on the stack and push the result | -->
+<!-- | div | Divide the top value on the stack by the second-top value and push the result | -->
