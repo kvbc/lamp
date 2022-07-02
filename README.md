@@ -1,3 +1,5 @@
+![](img/lamp.png)
+
 # Lamp
 
 Minecraft CarpetMod standalone turing-complete vanilla command-block array-based CPU generator
