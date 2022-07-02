@@ -1,6 +1,4 @@
-<img width="128" src="img/lamp.png">
-
-# Lamp
+# Lamp <img width="128" src="img/lamp.png">
 
 Minecraft CarpetMod standalone turing-complete vanilla command-block array-based CPU generator
 
