@@ -42,13 +42,9 @@ lbl main
 - `name`   — `[_a-zA-Z][_a-zA-Z0-9]*`
 - `value`  — Either `number`, `char` or `name` (constant)
 - `idx` — `value`, 0-based index from the bottom of the stack
+- `[...]` - optional argument, if not present, taken from the stack
 - `A` - top value on the stack
 - `B` - second-top value on the stack
-- `[...]` - optional argument, if not present, taken from the stack
-- `type`
-  - `int`  — 4-byte integer
-  - `char` — 1-byte integer
-  - `arr`  — array of either `int`, `char` or `arr[type]`
 
 <!-- TODO: const -->
 
@@ -76,6 +72,8 @@ lbl main
 | jge `name`  | Jump to label `name` if `A >= B`
 | jl `name`   | Jump to label `name` if `A <  B`
 | jle `name`  | Jump to label `name` if `A <= B`
+| jz `name`   | Jump to label `name` if `A == 0`
+| jnz `name`  | Jump to label `name` if `A != 0`
 
 ### Maths
 
@@ -84,3 +82,13 @@ lbl main
 | add         | Push `A + B`
 | sub         | Push `A - B`
 <!-- TODO: mul, div -->
+
+# TO-DO
+
+- Actually handle `char` cuz i don't think it's working
+- Make conditional jump instructions pop off their `A`s and `B`s
+- Create the `const` instruction for setting constants
+- Create an instruction that pushes the top index
+- Create the `mul` and `div` instructions for multiplication and division
+- Perhaps create a `del` instruction that would remove an element at a specified index
+- Perhaps create a `put` instruction that would place a specified block given `x y z` coordinates
