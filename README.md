@@ -31,7 +31,7 @@ The assembly language is stack-based and it provides
 ##### Stack manipulation
 
 | Instruction          | Description |
-| :------------------- | :---------: |
+| :------------------: | :---------: |
 | push `value`         | Push `value` onto the top of the stack
 | pop                  | Discard the top element of the stack <br> 📝 No other instruction can pop a value off the stack
 | get `[idx]`          | Push element at `idx` onto the top of the stack
