@@ -14,7 +14,7 @@ The assembly language is array-based and it provides
 
 # Synopsis
 
-The first 10 fibonacci numbers
+The first 10 fibonacci numbers - [Video Showcase](https://www.youtube.com/watch?v=NvBEsQZ-E2s)
 ```as
 push 10
 push 1
