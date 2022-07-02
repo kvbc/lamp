@@ -97,7 +97,7 @@ lbl main
 - Clean up the scarpet code
 - Clean up this readme
 - Actually handle `char` cuz I don't think it's working
-- Make conditional jump instructions pop off their `A`s and `B`s
+- Make conditional jumps pop off their `A`s and `B`s
 - Create a `const` instruction for setting constants
 - Create an `idx` instruction that pushes the top index
 - Create `mul` and `div` instructions for multiplication and division
