@@ -16,20 +16,22 @@ The assembly language is array-based and it provides
 
 The first 10 fibonacci numbers - [Video Showcase](https://www.youtube.com/watch?v=NvBEsQZ-E2s)
 ```as
-push 10
-push 1
-push 1
-push 11
 lbl loop
+  pop ;get 0
+  add
+  get 0 ;10
   push 1
   sub
   set 0
   pop
   pop
-  pop
-  add
-  get 0
   jnz loop
+lbl main
+  push 10
+  push 1
+  push 1
+  push 69 ;dummy for 1st pop in :loop
+  jmp loop
 ```
 
 # Instructions
