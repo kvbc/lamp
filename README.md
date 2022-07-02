@@ -12,6 +12,13 @@ The assembly language is array-based and it provides
 - conditional jumps
 - subroutines
 
+[Synopsis](#Synopsis)
+[Instructions](#Instructions)
+- [Memory manipulation](#memory-manipulation)
+- [Control flow](#control-flow)
+- [Arithmetic](#arithmetic)
+[TO-DO](#to-do)
+
 # Synopsis
 
 The first 10 fibonacci numbers - [Video Showcase](https://www.youtube.com/watch?v=NvBEsQZ-E2s)
@@ -75,7 +82,7 @@ lbl main
 | jz `name`   | Jump to label `name` if `A == 0`
 | jnz `name`  | Jump to label `name` if `A != 0`
 
-### Maths
+### Arithmetic
 
 | Instruction | Description |
 | :---------: | :---------- |
