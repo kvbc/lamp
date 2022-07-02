@@ -1,8 +1,15 @@
 # Lamp
 
-Minecraft Carpet standalone vanilla command-block CPU generator.
+Minecraft Carpet standalone vanilla command-block CPU generator
 
-Programs are written in JSON, so it is possible to create some kind of more advanced compiler for it (just in theory)
+Programs are written in JSON, so it is possible to create a compiler for it (just in theory 😳)
+
+The assembly language is stack-based and it provides
+- basic stack manipulation instructions
+- primitive usage of "variables" (`get` and `set` instructions)  
+- conditional jumps
+- subroutines
+- basic arithmetics (`add` and `sub` instructions)
 
 # Instructions
 
