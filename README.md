@@ -41,7 +41,7 @@ The assembly language is array-based and it provides
 ### Control flow
 
 | Instruction | Description |
-| :---------: | :---------: |
+| :---------: | :---------- |
 | lbl `name`  | Define a new label of ID `name`
 | call `name` | Call the subroutine at label `name`
 | ret         | Return from the current subroutine
@@ -56,7 +56,7 @@ The assembly language is array-based and it provides
 ### Maths
 
 | Instruction | Description |
-| :---------: | :---------: |
+| :---------: | :---------- |
 | add         | Push `A + B`
 | sub         | Push `A - B`
 <!-- TODO: mul, div -->
