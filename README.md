@@ -6,10 +6,10 @@ Programs are written in JSON, so it is possible to create a compiler for it (jus
 
 The assembly language is array-based and it provides
 - basic stack manipulation instructions (`push` and `pop` instructions)
-- primitive usage of "variables" (`get` and `set` instructions)  
+- primitive usage of "variables" (`get` and `set` instructions)
+- basic arithmetics (`add` and `sub` instructions)
 - conditional jumps
 - subroutines
-- basic arithmetics (`add` and `sub` instructions)
 
 # Instructions
 
