@@ -12,6 +12,8 @@ The assembly language is array-based and it provides
 - conditional jumps
 - subroutines  
 
+![](img/preview.gif)
+
 # Sections
 
 - [Synopsis](#Synopsis)
