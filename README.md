@@ -20,7 +20,7 @@ The assembly language is stack-based and it provides
 - `idx` — `value`, 0-based index from the bottom of the stack
 - `A` - top value on the stack
 - `B` - second-top value on the stack
-- `[...]` - optional
+- `[...]` - optional argument, if not present, taken from the stack
 - `type`
   - `int`  — 4-byte integer
   - `char` — 1-byte integer
