@@ -28,7 +28,7 @@ The assembly language is stack-based and it provides
 
 <!-- TODO: const -->
 
-#### Stack manipulation
+### Stack manipulation
 
 | Instruction          | Description |
 | :------------------: | :---------: |
@@ -38,7 +38,7 @@ The assembly language is stack-based and it provides
 | set `[idx] [value]`  | Set element at `idx` to `value`
 <!-- TODO: del -->
 
-#### Control flow
+### Control flow
 
 | Instruction | Description |
 | :---------: | :---------: |
@@ -53,7 +53,7 @@ The assembly language is stack-based and it provides
 | jl `name`   | Jump to label `name` if `A <  B`
 | jle `name`  | Jump to label `name` if `A <= B`
 
-#### Maths
+### Maths
 
 | Instruction | Description |
 | :---------: | :---------: |
