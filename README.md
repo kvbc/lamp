@@ -3,7 +3,7 @@
 Minecraft CarpetMod standalone turing-complete vanilla command-block array-based CPU generator
 
 The generator is written in [scarpet](https://github.com/gnembon/fabric-carpet/tree/master/docs/scarpet) using [CarpetMod](https://github.com/gnembon/fabric-carpet)  
-Assembly is written in JSON so maybe one day, with enough instructions, it would be possible to transpile [LUA's](https://www.lua.org/) bytecode to it
+Assembly is written in JSON so maybe one day, with enough instructions, it would be possible to transpile [LUA's](https://www.lua.org/) bytecode to it, which would be the ultimate goal of this project
 
 The assembly language is array-based and it provides
 - basic stack manipulation instructions (`push` and `pop` instructions)
