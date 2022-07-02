@@ -4,8 +4,8 @@ Minecraft Carpet standalone turing-complete vanilla command-block CPU generator
 
 Programs are written in JSON, so it is possible to create a compiler for it (just in theory 😳)
 
-The assembly language is stack-based and it provides
-- basic stack manipulation instructions
+The assembly language is array-based and it provides
+- basic stack manipulation instructions (`push` and `pop` instructions)
 - primitive usage of "variables" (`get` and `set` instructions)  
 - conditional jumps
 - subroutines
@@ -28,7 +28,7 @@ The assembly language is stack-based and it provides
 
 <!-- TODO: const -->
 
-### Stack manipulation
+### Memory manipulation
 
 | Instruction          | Description |
 | :------------------: | :---------: |
