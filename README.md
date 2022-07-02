@@ -86,7 +86,7 @@ lbl main
 # TO-DO
 
 - Clean up the scarpet code
-- Clean up this README
+- Clean up this readme
 - Actually handle `char` cuz I don't think it's working
 - Make conditional jump instructions pop off their `A`s and `B`s
 - Create a `const` instruction for setting constants
