@@ -12,13 +12,14 @@ The assembly language is array-based and it provides
 - conditional jumps
 - subroutines  
 
+# Sections
 
-* [Synopsis](#Synopsis)
-* [Instructions](#Instructions)
-  * [Memory manipulation](#memory-manipulation)
-  * [Control flow](#control-flow)
-  * [Arithmetic](#arithmetic)
-* [TO-DO](#to-do)
+- [Synopsis](#Synopsis)
+- [Instructions](#Instructions)
+  - [Memory manipulation](#memory-manipulation)
+  - [Control flow](#control-flow)
+  - [Arithmetic](#arithmetic)
+- [TO-DO](#to-do)
 
 # Synopsis
 
