@@ -12,8 +12,8 @@ The assembly language is array-based and it provides
 - conditional jumps
 - subroutines  
 
-![](img/preview.gif)
-###### The Arithmetic Logic and Compare Units in action
+![](img/preview.gif)  
+*The Arithmetic Logic and Compare Units in action*
 
 # Sections
 
