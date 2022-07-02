@@ -13,6 +13,7 @@ The assembly language is array-based and it provides
 - subroutines  
 
 ![](img/preview.gif)
+##### The Arithmetic Logic and Compare Units in action
 
 # Sections
 
