@@ -105,4 +105,4 @@ lbl main
 - Create an `idx` instruction that pushes the top index
 - Create `mul` and `div` instructions for multiplication and division
 - Perhaps create a `del` instruction that would remove an element at a specified index
-- Perhaps create a `put` instruction that would place a specified block at the given `x y z` coordinates
+- Perhaps create a `put` instruction that would place a specified block at the given `x y z` coordinates (good luck with that)
