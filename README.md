@@ -12,7 +12,7 @@ The assembly language is array-based and it provides
 - conditional jumps
 - subroutines  
 
-![](img/preview.gif)  
+![](https://raw.githubusercontent.com/kvbc/kvbc/main/gif/lamp.gif)
 *The ALU (Arithmetic Logic Unit) in action*
 
 # Sections
