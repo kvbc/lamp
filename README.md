@@ -1,4 +1,4 @@
-# <img width="32" src="img/lamp.png"> Lamp
+# Lamp
 
 Minecraft [CarpetMod](https://github.com/gnembon/fabric-carpet) standalone turing-complete vanilla command-block array-based CPU generator
 
